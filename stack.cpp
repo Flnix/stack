@@ -1,81 +1,84 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
 
-class stack {
+class Stack {
 private:
-    int top; // Changed "top:" to "top"
-    int *arr; // Changed "arr:" to "arr"
+    std::vector<int> arr;
+
 public:
-    stack(int size) {
-        top = -1;
-        arr = new int[size];
-        for (int i = 0; i < size; i++) { // Changed ":" to ";"
-            arr[i] = 0;
-        }
+    bool isEmpty() const {
+        return arr.empty();
     }
 
-    bool isEmpty() { // Changed "poal is empty()" to "bool isEmpty()"
-        if (top == -1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    bool isFull(int size) { // Changed "boot is full" to "bool isFull"
-        if (top == size - 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    void push(int val, int size) {
-        if (isFull(size)) {
-            std::cout << "error: stack is full";
-        } else {
-            top++;
-            arr[top] = val;
-            std::cout << val << " has been added";
-        }
+    void push(int val) {
+        arr.push_back(val);
+        std::cout << val << " has been added\n";
     }
 
     int pop() {
         if (isEmpty()) {
-            std::cout << "error: stack is empty";
+            std::cout << "error: stack is empty\n";
             return 0;
         } else {
-            int popValue = arr[top]; // Changed "pop value" to "popValue"
-            arr[top] = 0;
-            top--;
-            std::cout << popValue << " has been removed";
+            int popValue = arr.back();
+            arr.pop_back();
+            std::cout << popValue << " has been removed\n";
             return popValue;
         }
     }
 
-    int peek() {
+    int peek() const {
         if (isEmpty()) {
-            std::cout << "error: stack is empty";
+            std::cout << "error: stack is empty\n";
             return 0;
         } else {
-            int x = arr[top];
-            std::cout << "top element of the stack is " << x;
+            int x = arr.back();
+            std::cout << "top element of the stack is " << x << "\n";
             return x;
         }
     }
 };
 
+int getUserChoice() {
+    int choice;
+    std::cout << "\nMenu:\n";
+    std::cout << "1. Push\n";
+    std::cout << "2. Pop\n";
+    std::cout << "3. Peek\n";
+    std::cout << "4. Exit\n";
+    std::cout << "Enter your choice: ";
+    std::cin >> choice;
+    return choice;
+}
+
 int main() {
-    int size;
-    std::cout << "Enter the size of stack: ";
-    std::cin >> size;
-    stack s(size); // Added a variable name "s" to create an instance of the stack
-    int val;
-    std::cout << "Enter the element to push: ";
-    std::cin >> val;
-    s.push(val, size);
-    s.pop();
-    s.peek();
-    s.isEmpty(); // Corrected function name
-    s.isFull(size); // Corrected function name
+    Stack s;
+
+    while (true) {
+        int choice = getUserChoice();
+
+        switch (choice) {
+            case 1: {
+                int val;
+                std::cout << "Enter element to push: ";
+                std::cin >> val;
+                s.push(val);
+                break;
+            }
+            case 2:
+                s.pop();
+                break;
+            case 3:
+                s.peek();
+                break;
+            case 4:
+                std::cout << "Exiting...\n";
+                return 0;
+            default:
+                std::cout << "Invalid choice\n";
+                break;
+        }
+    }
+
     return 0;
 }
